@@ -1,0 +1,143 @@
+@import "../../scss/variables.scss";
+
+.search {
+  width: 90%;
+  height: 90%;
+  background-color: rgba(255, 255, 255, 0.9);
+  margin: 0 auto;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+
+  &__form-wraper {
+    width: 50%;
+    margin: 10%;
+
+    &__headline {
+      text-align: center;
+      color: #414141;
+    }
+
+    &__input {
+      border: 0;
+      outline: 0;
+      background: transparent;
+      border-bottom: 2px solid #414141;
+      width: 70%;
+      height: 60px;
+      margin: 25px 25px 0 25px;
+      padding-left: 20px;
+      font-size: 20px;
+    }
+  }
+
+  &__octopus {
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+    display: flex;
+    justify-content: flex-end;
+
+    &__img {
+      width: 300px;
+      height: 400px;
+      animation-duration: 15s;
+      animation-iteration-count: infinite;
+      animation-name: bounce;
+      order: 2;
+
+      &:hover {
+        animation: none;
+      }
+
+      &:hover ~ .search__octopus__cloud {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+
+    &__cloud {
+      background-color: $cta_color;
+      width: 200px;
+      height: 100px;
+      display: flex;
+      justify-content: space-around;
+      flex-direction: column;
+      position: relative;
+      border-radius: 0.4em;
+      visibility: hidden;
+      order: 1;
+      z-index: 3;
+      opacity: 0;
+      transition: visibility 0.3s linear, opacity 0.3s linear;
+
+      &:after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        width: 0;
+        height: 0;
+        border: 20px solid transparent;
+        border-left-color: $cta_color;
+        border-right: 0;
+        border-top: 0;
+        margin-top: -10px;
+        margin-right: -20px;
+      }
+
+      &__text {
+        margin: 0 auto;
+        color: white;
+      }
+    }
+  }
+}
+
+@keyframes bounce {
+  10% {
+    transform: scale(1);
+  }
+
+  20% {
+    transform: scale(0.95);
+  }
+
+  30% {
+    transform: scale(1);
+  }
+
+  40% {
+    transform: scale(0.95);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  60% {
+    transform: scale(0.95);
+  }
+
+  70% {
+    transform: scale(1);
+  }
+
+  80% {
+    transform: scale(0.95);
+  }
+
+  90% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .form_wraper {
+    margin: 0 auto;
+  }
+}

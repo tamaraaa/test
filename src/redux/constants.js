@@ -1,0 +1,9 @@
+export const FETCH_FULFILED = "FETCH_FULFILED";
+export const FETCH_ERROR = "FETCH_ERROR";
+export const SET_STATUS = "SET_STATUS";
+export const FETCH_DATA = "FETCH_DATA";
+export const SEARCH = "SEARCH";
+export const SET_CURRENT_USER = "SET_CURRENT_USER";
+export const GET_USER_INFO = "GET_USER_INFO";
+export const FETCH_INFO_FULFILED = "FETCH_INFO_FULFILED";
+export const pending = "pending";
