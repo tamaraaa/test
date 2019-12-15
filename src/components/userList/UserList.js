@@ -1,19 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import Card from "../shared/card/Card";
 
 import "./userList.scss";
-import { getUserInfo } from "../../redux/actions";
 
 const mapStateToProps = state => {
   return state;
 };
-const mapDispatchToProps = dispatch => {
-  return {
-    userInfo: value => dispatch(getUserInfo(value))
-  };
-};
+
 const UserList = ({ users }) => {
   return (
     <div className="user-list">
@@ -24,4 +20,7 @@ const UserList = ({ users }) => {
     </div>
   );
 };
-export default connect(mapStateToProps, mapDispatchToProps)(UserList);
+UserList.propTypes = {
+  users: PropTypes.array
+};
+export default connect(mapStateToProps)(UserList);

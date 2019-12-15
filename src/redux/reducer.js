@@ -1,13 +1,4 @@
-import { FETCH_FULFILED } from "./constants";
-import { SET_STATUS } from "./constants";
-import { FETCH_DATA } from "./constants";
-import {
-  SEARCH,
-  FETCH_ERROR,
-  SET_CURRENT_USER,
-  GET_USER_INFO,
-  FETCH_INFO_FULFILED
-} from "./constants";
+import { actionTypes } from "./constants";
 
 const initialState = {
   users: null,
@@ -18,53 +9,48 @@ const initialState = {
 };
 
 function rootReducer(state = initialState, action) {
-  if (action.type === FETCH_FULFILED) {
+  if (action.type === actionTypes.FETCH_FULFILED) {
     return {
       ...state,
-      users: action.payload.slice(0, 10),
+      users: state.users ? [...state.users, action.payload] : [action.payload],
       status: "success",
       errorMessage: ""
     };
   }
-  if (action.type === FETCH_DATA) {
-    return {
-      ...state
-    };
-  }
-  if (action.type === SET_STATUS) {
+  if (action.type === actionTypes.SET_STATUS) {
     return {
       ...state,
       status: action.payload
     };
   }
-  if (action.type === SEARCH) {
+  if (action.type === actionTypes.SEARCH) {
     console.log(action.payload);
     return {
       ...state,
-      users: null,
-      status: "pennding"
+      users: null
     };
   }
-  if (action.type === FETCH_ERROR) {
-    console.log(action.payload);
+  if (action.type === actionTypes.FETCH_ERROR) {
     return {
       ...state,
       status: "failure",
       errorMessage: action.payload
     };
   }
-  if (action.type === FETCH_INFO_FULFILED) {
+
+  if (action.type === actionTypes.FETCH_REPOS_FULFILED) {
     console.log(action.payload);
     return {
       ...state,
-      selectedUser: action.payload,
+      usersRepo: action.payload,
       status: "success"
     };
   }
-  if (action.type === GET_USER_INFO) {
+  if (action.type === actionTypes.GET_USER_REPOS) {
     console.log(action.payload);
     return {
-      ...state
+      ...state,
+      selectedUser: action.payload
     };
   }
   return state;

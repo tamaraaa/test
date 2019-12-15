@@ -33,6 +33,10 @@ ul {
   font-weight: normal;
 }
 
+a {
+  color: white;
+}
+
 ol,
 ul {
   list-style: none;

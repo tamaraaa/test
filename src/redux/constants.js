@@ -1,9 +1,19 @@
-export const FETCH_FULFILED = "FETCH_FULFILED";
-export const FETCH_ERROR = "FETCH_ERROR";
-export const SET_STATUS = "SET_STATUS";
-export const FETCH_DATA = "FETCH_DATA";
-export const SEARCH = "SEARCH";
-export const SET_CURRENT_USER = "SET_CURRENT_USER";
-export const GET_USER_INFO = "GET_USER_INFO";
-export const FETCH_INFO_FULFILED = "FETCH_INFO_FULFILED";
+// export const FETCH_FULFILED = "FETCH_FULFILED";
+// export const FETCH_ERROR = "FETCH_ERROR";
+// export const SET_STATUS = "SET_STATUS";
+// export const FETCH_DATA = "FETCH_DATA";
+// export const SEARCH = "SEARCH";
+// export const SET_CURRENT_USER = "SET_CURRENT_USER";
+// export const GET_USER_REPOS = "GET_USER_REPOS";
+// export const FETCH_REPOS_FULFILED = "FETCH_REPOS_FULFILED";
 export const pending = "pending";
+
+export const actionTypes = {
+  FETCH_FULFILED: "FETCH_FULFILED",
+  FETCH_ERROR: "FETCH_ERROR",
+  SET_STATUS: "SET_STATUS",
+  SEARCH: "SEARCH",
+  GET_USER_REPOS: "GET_USER_REPOS",
+  FETCH_REPOS_FULFILED: "FETCH_REPOS_FULFILED",
+  AUTHENTICATE: "AUTHENTICATE"
+};

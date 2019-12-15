@@ -1,59 +1,51 @@
-import {
-  SEARCH,
-  FETCH_ERROR,
-  FETCH_DATA,
-  SET_STATUS,
-  FETCH_FULFILED,
-  SET_CURRENT_USER,
-  GET_USER_INFO,
-  FETCH_INFO_FULFILED
-} from "./constants";
+import { actionTypes } from "./constants";
 
 export const fetchFulfiled = payload => {
-  console.log(payload);
   return {
-    type: FETCH_FULFILED,
+    type: actionTypes.FETCH_FULFILED,
     payload
   };
 };
 export const fetchError = payload => {
   return {
-    type: FETCH_ERROR,
+    type: actionTypes.FETCH_ERROR,
     payload
   };
 };
-export const fetchData = () => {
-  return {
-    type: FETCH_DATA
-  };
-};
+
 export const setStatus = payload => {
   return {
-    type: SET_STATUS,
+    type: actionTypes.SET_STATUS,
     payload
   };
 };
 export const search = payload => {
   return {
-    type: SEARCH,
+    type: actionTypes.SEARCH,
     payload
   };
 };
 export const currentUser = payload => {
   return {
-    type: SET_CURRENT_USER,
+    type: actionTypes.SET_CURRENT_USER,
     payload
   };
 };
-export const getUserInfo = payload => {
+
+export const getRepos = payload => {
   return {
-    type: GET_USER_INFO,
+    type: actionTypes.GET_USER_REPOS,
     payload
   };
 };
-export const fetchInfoFulfiled = payload => {
+export const fetchReposFulfiled = payload => {
   return {
-    type: FETCH_INFO_FULFILED,
+    type: actionTypes.FETCH_REPOS_FULFILED,
     payload
+  };
+};
+export const authentication = () => {
+  return {
+    type: actionTypes.AUTHENTICATE
   };
 };

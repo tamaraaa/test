@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { search } from "../../redux/actions";
-import octopus from "../../images/gitHub-octopus.png";
+import PropTypes from "prop-types";
 
+import octopus from "../../images/gitHub-octopus.png";
 import "./search.scss";
 
 const mapStateToProps = state => {
@@ -10,11 +11,11 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    searchFun: value => dispatch(search(value))
+    searchFunc: value => dispatch(search(value))
   };
 };
 
-const Search = ({ users, searchFun }) => {
+const Search = ({ users, searchFunc, status, errorMessage }) => {
   const renderOctopus = (
     <div className="search__octopus">
       <img
@@ -37,11 +38,18 @@ const Search = ({ users, searchFun }) => {
           className="search__form-wraper__input"
           type="text"
           placeholder="User name"
-          onChange={event => searchFun(event.target.value)}
+          onChange={event => searchFunc(event.target.value)}
         />
       </div>
       {!users && renderOctopus}
+      {status === "failure" && <p>{errorMessage}</p>}
     </div>
   );
+};
+Search.propTypes = {
+  users: PropTypes.array,
+  searchFunc: PropTypes.func,
+  status: PropTypes.string,
+  errorMessage: PropTypes.string
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Search);
