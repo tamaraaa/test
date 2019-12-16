@@ -28,7 +28,9 @@ const RepoList = ({ repositories, push }) => {
   );
 };
 
-const mapStateToProps = state => state.reducer.repositories;
+const mapStateToProps = state => ({
+  repositories: state.reducer.repositories
+});
 
 export default connect(mapStateToProps, { push })(RepoList);
 RepoList.propTypes = {
