@@ -1,13 +1,35 @@
-.repo-list {
+.repo-wraper {
+    margin-top: 200px;
     text-align: center;
+
+    h1 {
+        margin-bottom: 70px;
+    }
 
     &>button {
         background: none;
         border: none;
-        background-color: cornflowerblue;
         font-size: 1rem;
-        color: white;
+        color: rgb(221, 44, 74);
         padding: 10px;
-        border-radius: 2px;
+        position: absolute;
+        top: 20%;
+        left: 5%;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.5s;
+
+        &:hover svg {
+            transform: translateX(-10px);
+        }
+    }
+
+    &__list {
+        text-align: center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
     }
 }

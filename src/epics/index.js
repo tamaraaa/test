@@ -19,7 +19,7 @@ import { actionTypes, baseUrl, clientID, clientSecret } from "../constants";
 
 const authUrl = `${baseUrl}/users/tamaraaa?client_id=${clientID}&client_secret=${clientSecret}`;
 const searchUsersUrl = query => `${baseUrl}/search/users?q=${query}&type=info`;
-const getInfoUrl = query =>`${baseUrl}/users/${query}`;
+const getInfoUrl = query => `${baseUrl}/users/${query}`;
 const searchRepoUrl = query => `${baseUrl}/users/${query}/repos`;
 
 const authenticateEpic = actions$ =>
@@ -41,7 +41,7 @@ const loadUsers = actions$ =>
       ajax.getJSON(searchUsersUrl(payload)).pipe(
         mergeMap(res =>
           from(res.items).pipe(
-            take(5),
+            take(2),
             mergeMap(({ login }) =>
               ajax.getJSON(getInfoUrl(login)).pipe(
                 map(getUsersSuccess),
@@ -60,7 +60,21 @@ const loadRepos = actions$ =>
     ofType(actionTypes.GET_REPOS),
     mergeMap(({ payload }) =>
       ajax.getJSON(searchRepoUrl(payload)).pipe(
-        map(getReposSuccess),
+        map(res =>
+          getReposSuccess(
+            res.map(repo => ({
+              id: repo.id,
+              owner: repo.owner,
+              name: repo.name.toUpperCase(),
+              description: repo.description,
+              created_at: repo.created_at,
+              forks_count: repo.forks_count,
+              watchers_count: repo.watchers_count,
+              stargazers_count: repo.stargazers_count,
+              html_url: repo.html_url
+            }))
+          )
+        ),
         catchError(({ response }) => of(requestError(response.message)))
       )
     )

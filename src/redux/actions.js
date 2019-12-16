@@ -28,4 +28,3 @@ export const requestError = payload => ({
   type: actionTypes.REQUEST_ERROR,
   payload
 });
-

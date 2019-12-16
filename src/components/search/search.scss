@@ -1,7 +1,8 @@
 .search {
+    margin-top: 150px;
 
     &__form {
-        width: 600px;
+        width: 60%;
         text-align: center;
         margin: 50px auto 0 auto;
 
@@ -18,19 +19,64 @@
         }
     }
 
-    &__cards {
-        text-align: center;
-    }
+    &__content {
+        display: flex;
+        justify-content: center;
 
-    &__octupus {
-        width: 240px;
-        height: 300px;
-        transition: transform 0.5s ease;
-        margin: 0 auto;
-        display: block;
+        &__cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
 
-        &:hover {
-            transform: scale(1.05);
+            &__card {
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+            }
         }
+
+        &__octupus {
+            width: 30%;
+            justify-content: center;
+            display: flex;
+
+            img {
+                width: 240px;
+                height: 300px;
+                transition: transform 0.5s ease;
+
+                &:hover {
+                    transform: scale(1.05);
+                }
+            }
+        }
+
+        .error-cloud {
+            align-items: center;
+            background-color: bisque;
+            width: 300px;
+            height: 150px;
+            display: inline-flex;
+            justify-content: space-around;
+            flex-direction: column;
+            position: relative;
+            border-radius: .4em;
+
+            &:after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 50%;
+                border: 20px solid transparent;
+                border-left-color: bisque;
+                border-right: 0;
+                border-top: 0;
+                margin-top: -10px;
+                margin-right: -20px;
+            }
+
+        }
+
     }
+
 }

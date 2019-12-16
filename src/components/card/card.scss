@@ -5,10 +5,14 @@
     box-shadow: 2px 14px 8px -5px rgba(0, 0, 0, 0.15);
     margin: 50px;
     padding: 40px;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 400px;
 
-    h2 {
+    h3 {
         margin-top: 0;
+        font-weight: bold;
     }
 
     img {
@@ -20,12 +24,36 @@
     a,
     button {
         font-size: 1rem;
-        background-color: cornflowerblue;
+        background-image: linear-gradient(to right, #1A262A, rgb(221, 44, 74));
         padding: 10px 0;
         width: 100%;
         color: white;
         display: block;
         border-radius: 2px;
         text-decoration: none;
+        cursor: pointer;
     }
+
+    .description {
+        height: 20%;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+
+
+    }
+
+    .info {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: space-evenly;
+        height: 40%;
+
+        svg {
+            margin-right: 10px;
+        }
+    }
+
 }

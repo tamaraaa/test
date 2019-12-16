@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux';
-import { connectRouter } from 'connected-react-router'
+import { combineReducers } from "redux";
+import { connectRouter } from "connected-react-router";
 import { actionTypes, pending, success } from "../constants";
 const {
   GET_USERS,
@@ -15,7 +15,8 @@ function reducer(state = {}, action) {
       return {
         ...state,
         state: pending,
-        users: null
+        users: null,
+        searchedQuery: null
       };
     case GET_USERS_SUCCESS:
       return {
@@ -29,7 +30,8 @@ function reducer(state = {}, action) {
     case GET_REPOS:
       return {
         ...state,
-        status: pending
+        status: pending,
+        searchedQuery: action.payload
       };
     case GET_REPOS_SUCCESS:
       return {
@@ -46,8 +48,8 @@ function reducer(state = {}, action) {
   }
 }
 
-export default (history) => combineReducers({
-  router: connectRouter(history),
-  reducer
-});
-
+export default history =>
+  combineReducers({
+    router: connectRouter(history),
+    reducer
+  });

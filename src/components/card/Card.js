@@ -4,7 +4,13 @@ import { GoRepoForked, GoStar, GoEye } from "react-icons/go";
 import "./card.scss";
 
 const generateDescription = desc =>
-  !desc ? "Description is not availible" : desc.slice(0, 50);
+  !desc ? "Description is not availible" : desc.slice(0, 40);
+const formatDate = date =>
+  date
+    .slice(0, 10)
+    .split("-")
+    .reverse()
+    .join("-");
 
 const UserCard = ({ user: { login, avatar_url, bio }, getRepos }) => (
   <>
@@ -29,21 +35,34 @@ const RepoCard = ({
   }
 }) => (
   <>
-    <h2>{name}</h2>
-    <p>{generateDescription(description)}</p>
-    <span>Created at : {created_at}</span>
-    <span>
-      <GoRepoForked />
-      Forks : {forks_count}
-    </span>
-    <span>
-      <GoEye />
-      watcher : {watchers_count}
-    </span>
-    <span>
-      <GoStar />
-      stars : {stargazers_count}
-    </span>
+    <h3>{name}</h3>
+    <div className="description">
+      <p>
+        <strong>Description:</strong>
+      </p>
+      <p>{generateDescription(description)}</p>
+    </div>
+    <div className="info">
+      <span>
+        <strong>Created at : </strong>
+        {formatDate(created_at)}
+      </span>
+      <span>
+        <GoRepoForked />
+        <strong>Forks : </strong>
+        {forks_count}
+      </span>
+      <span>
+        <GoEye />
+        <strong> Watchers : </strong>
+        {watchers_count}
+      </span>
+      <span>
+        <GoStar />
+        <strong>Stars : </strong>
+        {stargazers_count}
+      </span>
+    </div>
     <a href={html_url} target="_blank">
       <span>Go to repository</span>
     </a>
