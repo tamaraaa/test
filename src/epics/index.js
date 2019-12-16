@@ -25,7 +25,7 @@ const loadUsers = actions$ =>
       ajax.getJSON(url.searchUsersUrl(payload)).pipe(
         mergeMap(res =>
           from(res.items).pipe(
-            take(1),
+            take(10),
             mergeMap(({ login }) =>
               ajax.getJSON(url.getInfoUrl(login)).pipe(
                 map(getUsersSuccess),
