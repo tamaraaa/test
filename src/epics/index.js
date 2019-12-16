@@ -1,88 +1,87 @@
-import { of, concat, from } from "rxjs";
+import { of, from } from "rxjs";
 import { combineEpics, ofType } from "redux-observable";
+import { push } from "connected-react-router";
 import {
   map,
   switchMap,
   debounceTime,
-  filter,
   catchError,
   mergeMap,
   take
 } from "rxjs/operators";
 import { ajax } from "rxjs/ajax";
 import {
-  setStatus,
-  fetchFulfiled,
-  fetchError,
-  fetchReposFulfiled
+  getUsersSuccess,
+  requestError,
+  getReposSuccess
 } from "../redux/actions";
-import { actionTypes, pending } from "../redux/constants";
+import { actionTypes, baseUrl, clientID, clientSecret } from "../constants";
 
-const searchUsers = query =>
-  `https://api.github.com/search/users?q=${query}&type=info`;
-
-const getInfo = query => {
-  return `https://api.github.com/users/${query}`;
-};
-const searchRepo = query => {
-  return `https://api.github.com/users/${query}/repos`;
-};
+const authUrl = `${baseUrl}/users/tamaraaa?client_id=${clientID}&client_secret=${clientSecret}`;
+const searchUsersUrl = query => `${baseUrl}/search/users?q=${query}&type=info`;
+const getInfoUrl = query =>`${baseUrl}/users/${query}`;
+const searchRepoUrl = query => `${baseUrl}/users/${query}/repos`;
 
 const authenticateEpic = actions$ =>
   actions$.pipe(
-    ofType(actionTypes.AUTHENTICATE),
-    mergeMap(action =>
-      ajax.getJSON(
-        "https://api.github.com/users/tamaraaa?client_id=Iv1.0d75bfe16962a9bc&client_secret=8dbcea4902546d5ba22c633cf4ad69da4f01f0b6"
+    ofType(actionTypes.AUTH),
+    mergeMap(() =>
+      ajax.getJSON(authUrl).pipe(
+        map(data => data),
+        catchError(({ response }) => of(requestError(response.message)))
       )
     )
   );
 
-const loadUsers = actions$ => {
-  return actions$.pipe(
-    ofType(actionTypes.SEARCH),
+const loadUsers = actions$ =>
+  actions$.pipe(
+    ofType(actionTypes.GET_USERS),
     debounceTime(300),
-    filter(({ payload }) => payload.trim() !== ""),
     switchMap(({ payload }) =>
-      concat(
-        of(setStatus(pending)),
-        ajax.getJSON(searchUsers(payload)).pipe(
-          mergeMap(res =>
-            from(res.items).pipe(
-              take(2),
-              mergeMap(({ login }) =>
-                ajax.getJSON(getInfo(login)).pipe(
-                  map(res => fetchFulfiled(res)),
-                  catchError(err => {
-                    return of(fetchError(err.response.message));
-                  })
-                )
+      ajax.getJSON(searchUsersUrl(payload)).pipe(
+        mergeMap(res =>
+          from(res.items).pipe(
+            take(5),
+            mergeMap(({ login }) =>
+              ajax.getJSON(getInfoUrl(login)).pipe(
+                map(getUsersSuccess),
+                catchError(({ response }) => of(requestError(response.message)))
               )
             )
-          ),
-          catchError(err => {
-            return of(fetchError(err.response.message));
-          })
-        )
+          )
+        ),
+        catchError(({ response }) => of(requestError(response.message)))
       )
     )
   );
-};
-const loadRepos = actions$ => {
-  return actions$.pipe(
-    ofType(actionTypes.GET_USER_REPOS),
-    mergeMap(({ payload }) => {
-      return concat(
-        of(setStatus(pending)),
-        ajax.getJSON(searchRepo(payload)).pipe(
-          debounceTime(300),
-          map(resp => fetchReposFulfiled(resp)),
-          catchError(err => {
-            return of(fetchError(err.response.message));
-          })
-        )
-      );
-    })
+
+const loadRepos = actions$ =>
+  actions$.pipe(
+    ofType(actionTypes.GET_REPOS),
+    mergeMap(({ payload }) =>
+      ajax.getJSON(searchRepoUrl(payload)).pipe(
+        map(getReposSuccess),
+        catchError(({ response }) => of(requestError(response.message)))
+      )
+    )
   );
-};
-export const rootEpic = combineEpics(loadUsers, loadRepos, authenticateEpic);
+
+const goToRepos = actions$ =>
+  actions$.pipe(
+    ofType(actionTypes.GET_REPOS),
+    map(() => push("/repositories"))
+  );
+
+const handleError = actions$ =>
+  actions$.pipe(
+    ofType(actionTypes.REQUEST_ERROR),
+    map(() => push("/"))
+  );
+
+export const rootEpic = combineEpics(
+  loadUsers,
+  loadRepos,
+  authenticateEpic,
+  goToRepos,
+  handleError
+);

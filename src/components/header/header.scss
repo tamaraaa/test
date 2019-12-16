@@ -1,0 +1,31 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    height: 10%;
+    background-image: linear-gradient(to right, #1A262A, rgb(221, 44, 74));
+
+    &__logo {
+        height: 50px;
+        width: 150px;
+        background: url('../../images/logo.png') no-repeat center;
+        background-size: contain;
+    }
+
+    &__avatar {
+        padding: 5px;
+        width: 50px;
+        height: 50px;
+        background: #1A262A;
+        border-radius: 50%;
+        color: white;
+        font-size: 30px;
+    }
+}

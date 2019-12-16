@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import Card from "../shared/card/Card";
+import Card from "../card/Card";
 
 import "./userList.scss";
 

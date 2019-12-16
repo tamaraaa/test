@@ -1,59 +1,53 @@
-import { actionTypes } from "./constants";
+import { combineReducers } from 'redux';
+import { connectRouter } from 'connected-react-router'
+import { actionTypes, pending, success } from "../constants";
+const {
+  GET_USERS,
+  GET_USERS_SUCCESS,
+  GET_REPOS,
+  GET_REPOS_SUCCESS,
+  REQUEST_ERROR
+} = actionTypes;
 
-const initialState = {
-  users: null,
-  status: "idle",
-  errorMessage: "",
-  selectedUser: null,
-  usersRepo: null
-};
-
-function rootReducer(state = initialState, action) {
-  if (action.type === actionTypes.FETCH_FULFILED) {
-    return {
-      ...state,
-      users: state.users ? [...state.users, action.payload] : [action.payload],
-      status: "success",
-      errorMessage: ""
-    };
+function reducer(state = {}, action) {
+  switch (action.type) {
+    case GET_USERS:
+      return {
+        ...state,
+        state: pending,
+        users: null
+      };
+    case GET_USERS_SUCCESS:
+      return {
+        ...state,
+        users: state.users
+          ? [...state.users, action.payload]
+          : [action.payload],
+        status: success,
+        errorMessage: ""
+      };
+    case GET_REPOS:
+      return {
+        ...state,
+        status: pending
+      };
+    case GET_REPOS_SUCCESS:
+      return {
+        ...state,
+        repositories: action.payload,
+        status: success
+      };
+    case REQUEST_ERROR:
+      return {
+        errorMessage: action.payload
+      };
+    default:
+      return state;
   }
-  if (action.type === actionTypes.SET_STATUS) {
-    return {
-      ...state,
-      status: action.payload
-    };
-  }
-  if (action.type === actionTypes.SEARCH) {
-    console.log(action.payload);
-    return {
-      ...state,
-      users: null
-    };
-  }
-  if (action.type === actionTypes.FETCH_ERROR) {
-    return {
-      ...state,
-      status: "failure",
-      errorMessage: action.payload
-    };
-  }
-
-  if (action.type === actionTypes.FETCH_REPOS_FULFILED) {
-    console.log(action.payload);
-    return {
-      ...state,
-      usersRepo: action.payload,
-      status: "success"
-    };
-  }
-  if (action.type === actionTypes.GET_USER_REPOS) {
-    console.log(action.payload);
-    return {
-      ...state,
-      selectedUser: action.payload
-    };
-  }
-  return state;
 }
 
-export default rootReducer;
+export default (history) => combineReducers({
+  router: connectRouter(history),
+  reducer
+});
+
