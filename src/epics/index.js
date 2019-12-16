@@ -15,35 +15,19 @@ import {
   requestError,
   getReposSuccess
 } from "../redux/actions";
-import { actionTypes, baseUrl, clientID, clientSecret } from "../constants";
-
-const authUrl = `${baseUrl}/users/tamaraaa?client_id=${clientID}&client_secret=${clientSecret}`;
-const searchUsersUrl = query => `${baseUrl}/search/users?q=${query}&type=info`;
-const getInfoUrl = query => `${baseUrl}/users/${query}`;
-const searchRepoUrl = query => `${baseUrl}/users/${query}/repos`;
-
-const authenticateEpic = actions$ =>
-  actions$.pipe(
-    ofType(actionTypes.AUTH),
-    mergeMap(() =>
-      ajax.getJSON(authUrl).pipe(
-        map(data => data),
-        catchError(({ response }) => of(requestError(response.message)))
-      )
-    )
-  );
+import { actionTypes, url } from "../constants";
 
 const loadUsers = actions$ =>
   actions$.pipe(
     ofType(actionTypes.GET_USERS),
     debounceTime(300),
     switchMap(({ payload }) =>
-      ajax.getJSON(searchUsersUrl(payload)).pipe(
+      ajax.getJSON(url.searchUsersUrl(payload)).pipe(
         mergeMap(res =>
           from(res.items).pipe(
-            take(2),
+            take(1),
             mergeMap(({ login }) =>
-              ajax.getJSON(getInfoUrl(login)).pipe(
+              ajax.getJSON(url.getInfoUrl(login)).pipe(
                 map(getUsersSuccess),
                 catchError(({ response }) => of(requestError(response.message)))
               )
@@ -59,7 +43,7 @@ const loadRepos = actions$ =>
   actions$.pipe(
     ofType(actionTypes.GET_REPOS),
     mergeMap(({ payload }) =>
-      ajax.getJSON(searchRepoUrl(payload)).pipe(
+      ajax.getJSON(url.searchRepoUrl(payload)).pipe(
         map(res =>
           getReposSuccess(
             res.map(repo => ({
@@ -95,7 +79,6 @@ const handleError = actions$ =>
 export const rootEpic = combineEpics(
   loadUsers,
   loadRepos,
-  authenticateEpic,
   goToRepos,
   handleError
 );

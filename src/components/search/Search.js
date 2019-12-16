@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Card from "../card/Card";
 import { getRepos, getUsers } from "../../redux/actions";
 import octopus from "../../images/gitHub-octopus.png";
+
 import "./search.scss";
 
 const ErrorBlock = ({ errorMessage }) => (
@@ -21,7 +22,7 @@ const Search = ({
   searchedQuery,
   getRepos
 }) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(searchedQuery || "");
   const onChange = ({ target }) => {
     const trimmedValue = target.value.trim();
     setValue(trimmedValue);
@@ -36,7 +37,7 @@ const Search = ({
           type="text"
           placeholder="Type a github username..."
           onChange={onChange}
-          value={value ? value : searchedQuery}
+          value={value}
         />
       </div>
       <div className="search__content">
@@ -57,7 +58,11 @@ const Search = ({
   );
 };
 
-const mapStateToProps = state => state.reducer;
+const mapStateToProps = state => ({
+  users: state.reducer.users,
+  errorMessage: state.reducer.errorMessage,
+  searchedQuery: state.reducer.searchedQuery
+});
 const mapDispatchToProps = dispatch => ({
   handleSearch: value => dispatch(getUsers(value)),
   getRepos: user => dispatch(getRepos(user))

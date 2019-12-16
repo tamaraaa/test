@@ -10,13 +10,13 @@ import "./repoList.scss";
 
 const RepoList = ({ repositories, push }) => {
   if (!repositories) return <div>Loading</div>;
-
+  const arrowColor = "rgb(221, 44, 74)";
   const user = repositories[0] && repositories[0].owner.login;
   return (
     <div className="repo-wraper">
       <h1>List of {user} github repositories</h1>
       <button onClick={() => push("/")}>
-        <GoChevronLeft color="rgb(221, 44, 74)" />
+        <GoChevronLeft color={arrowColor} />
         Back
       </button>
       <div className="repo-wraper__list">
@@ -28,9 +28,10 @@ const RepoList = ({ repositories, push }) => {
   );
 };
 
-const mapStateToProps = state => state.reducer;
+const mapStateToProps = state => state.reducer.repositories;
 
 export default connect(mapStateToProps, { push })(RepoList);
 RepoList.propTypes = {
-  repositories: PropTypes.array
+  repositories: PropTypes.array,
+  push: PropTypes.func
 };

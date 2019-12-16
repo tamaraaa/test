@@ -1,16 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { GoRepoForked, GoStar, GoEye } from "react-icons/go";
-import "./card.scss";
 
-const generateDescription = desc =>
-  !desc ? "Description is not availible" : desc.slice(0, 40);
-const formatDate = date =>
-  date
-    .slice(0, 10)
-    .split("-")
-    .reverse()
-    .join("-");
+import { generateDescription, formatDate } from "./utils";
+
+import "./card.scss";
 
 const UserCard = ({ user: { login, avatar_url, bio }, getRepos }) => (
   <>
@@ -63,7 +57,7 @@ const RepoCard = ({
         {stargazers_count}
       </span>
     </div>
-    <a href={html_url} target="_blank">
+    <a href={html_url} target="_blank" rel="noopener noreferrer">
       <span>Go to repository</span>
     </a>
   </>

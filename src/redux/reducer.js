@@ -16,7 +16,7 @@ function reducer(state = {}, action) {
         ...state,
         state: pending,
         users: null,
-        searchedQuery: null
+        searchedQuery: action.payload
       };
     case GET_USERS_SUCCESS:
       return {
@@ -30,8 +30,7 @@ function reducer(state = {}, action) {
     case GET_REPOS:
       return {
         ...state,
-        status: pending,
-        searchedQuery: action.payload
+        status: pending
       };
     case GET_REPOS_SUCCESS:
       return {
