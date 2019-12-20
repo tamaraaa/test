@@ -9,9 +9,8 @@ import Card from "../card/Card";
 import "./repoList.scss";
 
 const RepoList = ({ repositories, push }) => {
-  if (!repositories) return <div>Loading</div>;
   const arrowColor = "rgb(221, 44, 74)";
-  const user = repositories[0] && repositories[0].owner.login;
+  const user = repositories && repositories[0] && repositories[0].owner.login;
   return (
     <div className="repo-wraper">
       <h1>List of {user} github repositories</h1>
@@ -20,9 +19,8 @@ const RepoList = ({ repositories, push }) => {
         Back
       </button>
       <div className="repo-wraper__list">
-        {repositories.map(repo => (
-          <Card repo={repo} key={repo.id} />
-        ))}
+        {repositories &&
+          repositories.map(repo => <Card repo={repo} key={repo.id} />)}
       </div>
     </div>
   );

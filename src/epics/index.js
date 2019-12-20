@@ -15,6 +15,7 @@ import {
   requestError,
   getReposSuccess
 } from "../redux/actions";
+import { route } from "../routes";
 import { actionTypes, url } from "../constants";
 
 const loadUsers = actions$ =>
@@ -67,13 +68,13 @@ const loadRepos = actions$ =>
 const goToRepos = actions$ =>
   actions$.pipe(
     ofType(actionTypes.GET_REPOS),
-    map(() => push("/repositories"))
+    map(() => push(route.repositories))
   );
 
 const handleError = actions$ =>
   actions$.pipe(
     ofType(actionTypes.REQUEST_ERROR),
-    map(() => push("/"))
+    map(() => push(route.landingPage))
   );
 
 export const rootEpic = combineEpics(
